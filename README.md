@@ -1,3 +1,4 @@
+[![Statut du workflow CI](https://github.com/RaphaelRiguet/sujet_etudiant/actions/workflows/ci.yml/badge.svg)](https://github.com/RaphaelRiguet/sujet_etudiant/actions/workflows/ci.yml)
 # Portfolio interactif, React
 
 
@@ -67,4 +68,3 @@ Chaque commande existe sous deux formes : le raccourci `make` (pratique en local
 
 Voir [COMMANDES.md](COMMANDES.md) pour le détail.
 
-[![Statut du workflow CI](https://github.com/RaphaelRiguet/sujet_etudiant/actions/workflows/ci.yml/badge.svg)](https://github.com/RaphaelRiguet/sujet_etudiant/actions/workflows/ci.yml)
