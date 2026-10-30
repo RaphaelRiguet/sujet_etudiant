@@ -9,17 +9,17 @@ on:
       - develop
 
 jobs:
-  ci:
+  test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: projet-react
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: npm
@@ -31,8 +31,42 @@ jobs:
       - name: Run lint
         run: npm run lint
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests and generate report
+        run: npm test -- --reporter=junit --outputFile=test-results/junit.xml
 
-      - name: Build
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-tests
+          path: projet-react/test-results/junit.xml
+          if-no-files-found: warn
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projet-react
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: projet-react/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production
         run: npm run build
+
+      - name: Upload production build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-production
+          path: projet-react/dist/
